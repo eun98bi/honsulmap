@@ -95,3 +95,6 @@ CREATE POLICY "comments_anon_insert"
 
 CREATE POLICY "comments_service_all"
   ON comments FOR ALL TO service_role USING (TRUE);
+
+-- ── 7. 뷰 권한 부여 ──────────────────────────────────────────────
+GRANT SELECT ON posts_with_meta TO anon, authenticated, service_role;

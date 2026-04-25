@@ -2,6 +2,8 @@ import Link from "next/link";
 import { createClient } from "@supabase/supabase-js";
 import styles from "./page.module.css";
 
+export const dynamic = "force-dynamic";
+
 const LIMIT = 20;
 
 interface PostMeta {
