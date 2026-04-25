@@ -1,0 +1,286 @@
+.panel {
+  position: relative;
+  padding: 24px;
+  overflow-y: auto;
+  height: 100%;
+  animation: fadeUp 0.3s ease forwards;
+}
+
+.topActions {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  margin-bottom: 16px;
+}
+
+.shareLink {
+  font-family: 'Gmarket Sans', sans-serif;
+  font-size: 11px;
+  color: var(--text-dim);
+  text-decoration: none;
+  padding: 4px 8px;
+  border-radius: 4px;
+  border: 1px solid var(--border);
+  transition: all 0.15s;
+}
+
+.shareLink:hover {
+  color: var(--text-muted);
+  border-color: var(--text-dim);
+}
+
+.close {
+  background: var(--surface2);
+  border: 1px solid var(--border);
+  color: var(--text-muted);
+  min-width: 56px;
+  height: 32px;
+  border-radius: 999px;
+  cursor: pointer;
+  font-size: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.15s;
+  flex-shrink: 0;
+}
+
+.close:hover {
+  color: var(--text);
+  border-color: var(--text-muted);
+}
+
+.header {
+  margin-bottom: 16px;
+}
+
+.modeBig {
+  font-family: 'Gmarket Sans', sans-serif;
+  font-size: 13px;
+  font-weight: 700;
+  margin-bottom: 6px;
+}
+
+.name {
+  font-family: 'Gmarket Sans', sans-serif;
+  font-size: 22px;
+  font-weight: 700;
+  color: var(--text);
+  margin-bottom: 4px;
+  line-height: 1.3;
+}
+
+.location {
+  font-size: 12px;
+  color: var(--accent-amber);
+  font-family: 'Gmarket Sans', sans-serif;
+  margin-bottom: 4px;
+}
+
+.address {
+  font-size: 12px;
+  color: var(--text-muted);
+  font-family: 'Gmarket Sans', sans-serif;
+}
+
+.desc {
+  font-size: 13px;
+  color: var(--text-muted);
+  line-height: 1.8;
+  margin-bottom: 20px;
+  padding-bottom: 20px;
+  border-bottom: 1px solid var(--border);
+}
+
+.section {
+  margin-bottom: 20px;
+  padding-bottom: 20px;
+  border-bottom: 1px solid var(--border);
+}
+
+.section:last-of-type {
+  border-bottom: none;
+}
+
+.sectionTitle {
+  font-family: 'Gmarket Sans', sans-serif;
+  font-size: 11px;
+  color: var(--text-dim);
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  margin-bottom: 10px;
+  font-weight: 500;
+}
+
+.tagGrid {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.tagItem {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 13px;
+  color: var(--text-muted);
+}
+
+.tagDot {
+  width: 5px;
+  height: 5px;
+  border-radius: 50%;
+  flex-shrink: 0;
+}
+
+.mapLinks {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 8px;
+  margin-bottom: 10px;
+}
+
+.mapBtn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  padding: 10px 8px;
+  border-radius: 8px;
+  font-family: 'Gmarket Sans', sans-serif;
+  font-size: 12px;
+  font-weight: 700;
+  text-decoration: none;
+  transition: all 0.2s;
+  border: 1px solid transparent;
+}
+
+.mapBtn[data-service="kakao"] {
+  background: #fee500;
+  color: #3a1d1d;
+}
+
+.mapBtn[data-service="kakao"]:hover {
+  background: #f0d800;
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(254, 229, 0, 0.25);
+}
+
+.mapBtn[data-service="naver"] {
+  background: #03c75a;
+  color: #fff;
+}
+
+.mapBtn[data-service="naver"]:hover {
+  background: #02b350;
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(3, 199, 90, 0.25);
+}
+
+.chipRow {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin-bottom: 8px;
+}
+
+.infoBadge {
+  font-size: 12px;
+  padding: 3px 10px;
+  border-radius: 6px;
+  background: var(--surface2);
+  border: 1px solid var(--border);
+  color: var(--text-muted);
+  font-family: 'Gmarket Sans', sans-serif;
+}
+
+.infoLine {
+  font-size: 12px;
+  color: var(--text-muted);
+  font-family: 'Gmarket Sans', sans-serif;
+}
+
+.menuGrid {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+
+.menuBadge {
+  font-size: 12px;
+  padding: 4px 10px;
+  border-radius: 6px;
+  background: rgba(212, 168, 83, 0.07);
+  border: 1px solid var(--accent-amber-dim);
+  color: var(--accent-amber);
+  font-family: 'Gmarket Sans', sans-serif;
+}
+
+.hoursTable {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
+
+.hoursRow {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  padding: 6px 8px;
+  border-radius: 6px;
+}
+
+.hoursToday {
+  background: rgba(212, 168, 83, 0.07);
+}
+
+.hoursDay {
+  font-family: 'Gmarket Sans', sans-serif;
+  font-size: 12px;
+  font-weight: 700;
+  color: var(--text-muted);
+  width: 18px;
+  flex-shrink: 0;
+}
+
+.hoursTime {
+  font-family: 'Gmarket Sans', sans-serif;
+  font-size: 13px;
+  color: var(--text);
+  text-align: right;
+}
+
+.hoursHoliday {
+  color: var(--text-dim);
+}
+
+@media (max-width: 768px) {
+  .panel {
+    height: auto;
+    min-height: 100%;
+    padding: 18px 16px 24px;
+  }
+
+  .topActions {
+    position: sticky;
+    top: 0;
+    z-index: 2;
+    padding-bottom: 12px;
+    background: var(--bg);
+  }
+
+  .mapLinks {
+    grid-template-columns: 1fr;
+  }
+
+  .hoursRow {
+    align-items: flex-start;
+    flex-direction: column;
+  }
+
+  .hoursTime {
+    text-align: left;
+  }
+}

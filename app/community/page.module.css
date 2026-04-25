@@ -1,0 +1,199 @@
+.page {
+  min-height: 100vh;
+  background: var(--bg);
+  color: var(--text);
+}
+
+/* ─── Header ─────────────────────────────────────── */
+.header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 24px;
+  height: 52px;
+  border-bottom: 1px solid var(--border);
+  position: sticky;
+  top: 0;
+  background: var(--bg);
+  z-index: 10;
+}
+
+.logo {
+  font-family: 'Gmarket Sans', sans-serif;
+  font-size: 15px;
+  font-weight: 700;
+  color: var(--accent-amber);
+  text-decoration: none;
+  letter-spacing: -0.3px;
+}
+
+.nav {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+}
+
+.navLink {
+  font-size: 13px;
+  color: #C0B9B0;
+  text-decoration: none;
+  transition: color 0.15s;
+}
+.navLink:hover { color: var(--text); }
+
+.navCurrent {
+  font-size: 13px;
+  color: var(--accent-amber);
+  font-weight: 500;
+}
+
+/* ─── Main ────────────────────────────────────────── */
+.main {
+  max-width: 720px;
+  margin: 0 auto;
+  padding: 32px 16px 80px;
+}
+
+.titleRow {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 24px;
+}
+
+.title {
+  font-family: 'Gmarket Sans', sans-serif;
+  font-size: 20px;
+  font-weight: 700;
+  color: var(--text);
+  letter-spacing: -0.5px;
+}
+
+.writeBtn {
+  display: inline-flex;
+  align-items: center;
+  padding: 8px 16px;
+  background: var(--accent-amber);
+  color: #1a1400;
+  font-size: 13px;
+  font-weight: 700;
+  font-family: 'Gmarket Sans', sans-serif;
+  border-radius: 6px;
+  text-decoration: none;
+  transition: opacity 0.15s;
+}
+.writeBtn:hover { opacity: 0.85; }
+
+/* ─── Post List ───────────────────────────────────── */
+.list {
+  list-style: none;
+  border-top: 1px solid var(--border);
+}
+
+.item {
+  border-bottom: 1px solid var(--border);
+}
+
+.itemLink {
+  display: block;
+  padding: 14px 4px;
+  text-decoration: none;
+  transition: background 0.1s;
+}
+.itemLink:hover { background: var(--surface); }
+
+.itemMain {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  margin-bottom: 6px;
+}
+
+.barBadge {
+  flex-shrink: 0;
+  font-size: 11px;
+  padding: 2px 7px;
+  background: var(--accent-amber-dim);
+  color: var(--accent-amber);
+  border-radius: 3px;
+  font-family: 'Gmarket Sans', sans-serif;
+  font-weight: 500;
+}
+
+.itemTitle {
+  font-size: 15px;
+  color: var(--text);
+  line-height: 1.4;
+  flex: 1;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.commentCount {
+  flex-shrink: 0;
+  font-size: 13px;
+  color: var(--accent-amber);
+  font-weight: 500;
+}
+
+.itemMeta {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 12px;
+  color: #B0A99E;
+}
+
+.dot { color: var(--text-muted); }
+
+/* ─── Empty ───────────────────────────────────────── */
+.empty {
+  padding: 80px 0;
+  text-align: center;
+  color: #C0B9B0;
+  font-size: 15px;
+  line-height: 2;
+}
+
+/* ─── Pagination ──────────────────────────────────── */
+.pagination {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 6px;
+  margin-top: 40px;
+}
+
+.pageBtn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 36px;
+  height: 36px;
+  padding: 0 10px;
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  font-size: 13px;
+  color: var(--text-muted);
+  text-decoration: none;
+  transition: all 0.15s;
+}
+.pageBtn:hover {
+  border-color: var(--accent-amber);
+  color: var(--accent-amber);
+}
+
+.pageBtnActive {
+  background: var(--accent-amber);
+  border-color: var(--accent-amber);
+  color: #1a1400;
+  font-weight: 700;
+}
+
+/* ─── Mobile ──────────────────────────────────────── */
+@media (max-width: 480px) {
+  .header { padding: 0 16px; }
+  .main { padding: 24px 12px 60px; }
+  .itemTitle { font-size: 14px; }
+}

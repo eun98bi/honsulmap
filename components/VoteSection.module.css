@@ -1,0 +1,148 @@
+.root {
+  display: flex;
+  flex-direction: column;
+}
+
+.section {
+  margin-bottom: 20px;
+  padding-bottom: 20px;
+  border-bottom: 1px solid var(--border);
+}
+
+.section:last-of-type {
+  border-bottom: none;
+  margin-bottom: 0;
+}
+
+.sectionTitle {
+  font-family: 'Gmarket Sans', sans-serif;
+  font-size: 11px;
+  color: var(--text-dim);
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  margin-bottom: 6px;
+  font-weight: 500;
+}
+
+.hint {
+  font-size: 11px;
+  color: var(--text-dim);
+  margin-bottom: 10px;
+  font-family: 'Gmarket Sans', sans-serif;
+}
+
+/* 분위기 투표 버튼 */
+.modeGrid {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.modeBtn {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  width: 100%;
+  padding: 9px 12px;
+  border-radius: 8px;
+  background: var(--surface2);
+  border: 1px solid var(--border);
+  color: var(--text-muted);
+  cursor: pointer;
+  font-family: 'Gmarket Sans', sans-serif;
+  font-size: 13px;
+  text-align: left;
+  transition: all 0.15s;
+}
+
+.modeBtn:hover:not(:disabled) {
+  border-color: var(--text-dim);
+  color: var(--text);
+}
+
+.modeBtn:disabled {
+  cursor: default;
+}
+
+.modeBtnVoted {
+  color: var(--text);
+  font-weight: 700;
+}
+
+.modeBtnDone {
+  opacity: 0.45;
+}
+
+.modeEmoji {
+  font-size: 14px;
+  flex-shrink: 0;
+}
+
+.modeLabel {
+  flex: 1;
+}
+
+.modeCount {
+  font-size: 12px;
+  color: var(--text-dim);
+  font-weight: 700;
+  min-width: 20px;
+  text-align: right;
+}
+
+/* 태그 투표 버튼 */
+.tagGrid {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.tagBtn {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  width: 100%;
+  padding: 7px 10px;
+  border-radius: 7px;
+  background: var(--surface2);
+  border: 1px solid var(--border);
+  color: var(--text-muted);
+  cursor: pointer;
+  font-family: 'Gmarket Sans', sans-serif;
+  font-size: 13px;
+  text-align: left;
+  transition: all 0.15s;
+}
+
+.tagBtn:hover:not(:disabled) {
+  border-color: var(--text-dim);
+  color: var(--text);
+}
+
+.tagBtn:disabled {
+  cursor: default;
+}
+
+.tagBtnVoted {
+  color: var(--text);
+}
+
+.tagDot {
+  width: 5px;
+  height: 5px;
+  border-radius: 50%;
+  flex-shrink: 0;
+  transition: background 0.15s;
+}
+
+.tagText {
+  flex: 1;
+}
+
+.tagCount {
+  font-size: 11px;
+  color: var(--text-dim);
+  font-weight: 700;
+  min-width: 16px;
+  text-align: right;
+}

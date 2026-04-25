@@ -1,0 +1,446 @@
+.page {
+  min-height: 100vh;
+  background: var(--bg);
+  color: var(--text);
+}
+
+/* ─── Header ─────────────────────────────────────── */
+.header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 24px;
+  height: 52px;
+  border-bottom: 1px solid var(--border);
+  position: sticky;
+  top: 0;
+  background: var(--bg);
+  z-index: 10;
+}
+
+.logo {
+  font-family: 'Gmarket Sans', sans-serif;
+  font-size: 15px;
+  font-weight: 700;
+  color: var(--accent-amber);
+  text-decoration: none;
+}
+
+.nav { display: flex; }
+
+.navLink {
+  font-size: 13px;
+  color: #C0B9B0;
+  text-decoration: none;
+  transition: color 0.15s;
+}
+.navLink:hover { color: var(--text); }
+
+/* ─── Main ────────────────────────────────────────── */
+.main {
+  max-width: 720px;
+  margin: 0 auto;
+  padding: 36px 16px 100px;
+}
+
+/* ─── Post Header ─────────────────────────────────── */
+.barBadge {
+  display: inline-flex;
+  align-items: center;
+  margin-bottom: 14px;
+  padding: 4px 10px;
+  background: var(--accent-amber-dim);
+  color: var(--accent-amber);
+  font-size: 12px;
+  font-family: 'Gmarket Sans', sans-serif;
+  font-weight: 500;
+  border-radius: 4px;
+  text-decoration: none;
+  transition: opacity 0.15s;
+}
+.barBadge:hover { opacity: 0.8; }
+
+.barDistrict {
+  color: rgba(212, 168, 83, 0.6);
+}
+
+.postTitle {
+  font-family: 'Gmarket Sans', sans-serif;
+  font-size: 22px;
+  font-weight: 700;
+  color: var(--text);
+  line-height: 1.4;
+  margin-bottom: 12px;
+  letter-spacing: -0.5px;
+}
+
+.postMeta {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 13px;
+  color: #B0A99E;
+  margin-bottom: 12px;
+}
+
+.metaNickname {
+  font-weight: 500;
+  color: var(--text);
+}
+
+.dot { color: var(--text-muted); }
+
+/* ─── Post Action Buttons ─────────────────────────── */
+.postActionsBtns {
+  display: flex;
+  gap: 8px;
+  margin-bottom: 20px;
+}
+
+.actionBtn {
+  padding: 5px 12px;
+  background: none;
+  border: 1px solid var(--border);
+  border-radius: 5px;
+  font-size: 12px;
+  color: var(--text-muted);
+  cursor: pointer;
+  transition: all 0.15s;
+  font-family: 'Noto Serif KR', serif;
+}
+.actionBtn:hover { border-color: var(--text-muted); color: var(--text); }
+
+.actionBtnDelete:hover {
+  border-color: #e07070;
+  color: #e07070;
+}
+
+/* ─── Divider ─────────────────────────────────────── */
+.divider {
+  border: none;
+  border-top: 1px solid var(--border);
+  margin: 20px 0;
+}
+
+/* ─── Content ─────────────────────────────────────── */
+.content {
+  font-size: 15px;
+  line-height: 1.9;
+  color: var(--text);
+  white-space: pre-wrap;
+  word-break: break-word;
+}
+.content p { margin: 0; min-height: 1.5em; }
+
+/* ─── Comments ────────────────────────────────────── */
+.comments { margin-top: 8px; }
+
+.commentsTitle {
+  font-family: 'Gmarket Sans', sans-serif;
+  font-size: 15px;
+  font-weight: 700;
+  color: var(--text);
+  margin-bottom: 20px;
+}
+
+.commentsCount {
+  color: var(--accent-amber);
+  margin-left: 4px;
+}
+
+.commentsLoading,
+.commentsEmpty {
+  font-size: 14px;
+  color: #C0B9B0;
+  padding: 16px 0;
+}
+
+/* ─── Comment List ────────────────────────────────── */
+.commentList {
+  list-style: none;
+  margin-bottom: 24px;
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+}
+
+.commentItem {
+  padding: 14px 0;
+  border-bottom: 1px solid var(--border);
+}
+.commentItem:first-child { border-top: 1px solid var(--border); }
+
+.commentHeader {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 6px;
+}
+
+.commentNick {
+  font-size: 13px;
+  font-weight: 500;
+  color: var(--text);
+}
+
+.commentDate {
+  font-size: 12px;
+  color: #B0A99E;
+  flex: 1;
+}
+
+.commentDelBtn {
+  background: none;
+  border: none;
+  font-size: 12px;
+  color: var(--text-muted);
+  cursor: pointer;
+  padding: 2px 4px;
+  transition: color 0.15s;
+  font-family: 'Noto Serif KR', serif;
+}
+.commentDelBtn:hover { color: #e07070; }
+
+.commentContent {
+  font-size: 14px;
+  line-height: 1.7;
+  color: var(--text);
+  white-space: pre-wrap;
+  word-break: break-word;
+}
+
+/* ─── Comment Form ────────────────────────────────── */
+.commentForm {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  padding: 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.commentFormTop {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 8px;
+}
+
+.commentFormBottom {
+  display: flex;
+  gap: 8px;
+  align-items: flex-end;
+}
+
+.commentInput {
+  background: var(--surface2);
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  padding: 8px 10px;
+  font-size: 13px;
+  color: var(--text);
+  font-family: 'Noto Serif KR', serif;
+  width: 100%;
+  outline: none;
+  transition: border-color 0.15s;
+}
+.commentInput::placeholder { color: var(--text-muted); }
+.commentInput:focus { border-color: var(--accent-amber-dim); }
+
+.commentTextarea {
+  flex: 1;
+  background: var(--surface2);
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  padding: 8px 10px;
+  font-size: 13px;
+  color: var(--text);
+  font-family: 'Noto Serif KR', serif;
+  resize: none;
+  outline: none;
+  line-height: 1.6;
+  transition: border-color 0.15s;
+}
+.commentTextarea::placeholder { color: var(--text-muted); }
+.commentTextarea:focus { border-color: var(--accent-amber-dim); }
+
+.commentSubmitBtn {
+  flex-shrink: 0;
+  width: 52px;
+  height: 52px;
+  background: var(--accent-amber);
+  color: #1a1400;
+  border: none;
+  border-radius: 6px;
+  font-size: 13px;
+  font-weight: 700;
+  font-family: 'Gmarket Sans', sans-serif;
+  cursor: pointer;
+  transition: opacity 0.15s;
+  align-self: flex-end;
+}
+.commentSubmitBtn:hover:not(:disabled) { opacity: 0.85; }
+.commentSubmitBtn:disabled { opacity: 0.5; cursor: not-allowed; }
+
+.commentFormMeta {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.charCount {
+  font-size: 11px;
+  color: var(--text-muted);
+}
+
+.commentError {
+  font-size: 12px;
+  color: #e07070;
+}
+
+/* ─── Modal ───────────────────────────────────────── */
+.modal {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.6);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 100;
+  padding: 16px;
+}
+
+.modalBox {
+  background: var(--surface2);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 24px;
+  width: 100%;
+  max-width: 360px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.modalTitle {
+  font-family: 'Gmarket Sans', sans-serif;
+  font-size: 16px;
+  font-weight: 700;
+  color: var(--text);
+}
+
+.modalDesc {
+  font-size: 13px;
+  color: #C0B9B0;
+  margin-top: -4px;
+}
+
+.modalInput {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 10px 12px;
+  font-size: 14px;
+  color: var(--text);
+  font-family: 'Noto Serif KR', serif;
+  width: 100%;
+  outline: none;
+  transition: border-color 0.15s;
+}
+.modalInput::placeholder { color: var(--text-muted); }
+.modalInput:focus { border-color: var(--accent-amber-dim); }
+
+.modalError {
+  font-size: 13px;
+  color: #e07070;
+}
+
+.modalActions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 8px;
+  margin-top: 4px;
+}
+
+.modalCancelBtn {
+  padding: 8px 16px;
+  background: none;
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  font-size: 13px;
+  color: var(--text-muted);
+  cursor: pointer;
+  transition: all 0.15s;
+  font-family: 'Noto Serif KR', serif;
+}
+.modalCancelBtn:hover { border-color: var(--text-muted); color: var(--text); }
+
+.modalConfirmBtn {
+  padding: 8px 16px;
+  background: var(--accent-amber);
+  border: none;
+  border-radius: 6px;
+  font-size: 13px;
+  font-weight: 700;
+  color: #1a1400;
+  cursor: pointer;
+  font-family: 'Gmarket Sans', sans-serif;
+  transition: opacity 0.15s;
+}
+.modalConfirmBtn:hover:not(:disabled) { opacity: 0.85; }
+.modalConfirmBtn:disabled { opacity: 0.5; cursor: not-allowed; }
+
+.modalConfirmDelete {
+  background: #c0504d;
+  color: #fff;
+}
+.modalConfirmDelete:hover:not(:disabled) { opacity: 0.9; }
+
+/* ─── Edit Form (in modal) ────────────────────────── */
+.editForm {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  width: 100%;
+  max-width: 560px;
+}
+
+.editField {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.editLabel {
+  font-size: 12px;
+  color: #C0B9B0;
+  font-family: 'Gmarket Sans', sans-serif;
+}
+
+.editTextarea {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 10px 12px;
+  font-size: 14px;
+  color: var(--text);
+  font-family: 'Noto Serif KR', serif;
+  resize: vertical;
+  outline: none;
+  line-height: 1.7;
+  transition: border-color 0.15s;
+}
+.editTextarea:focus { border-color: var(--accent-amber-dim); }
+
+/* ─── Mobile ──────────────────────────────────────── */
+@media (max-width: 480px) {
+  .header { padding: 0 16px; }
+  .main { padding: 24px 12px 80px; }
+  .postTitle { font-size: 18px; }
+  .commentFormTop { grid-template-columns: 1fr; }
+  .modalBox { max-width: 100%; }
+
+  .editForm {
+    max-width: 100%;
+  }
+}
