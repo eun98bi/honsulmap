@@ -1,5 +1,6 @@
 import Link from "next/link";
 import { createClient } from "@supabase/supabase-js";
+import { COMMUNITY_REGIONS } from "@/lib/data";
 import styles from "./page.module.css";
 
 export const dynamic = "force-dynamic";
@@ -16,6 +17,7 @@ const CATEGORIES: { label: string; value: Category | null }[] = [
   { label: "자유", value: "자유" },
 ];
 
+
 const CAT_CLASS: Record<Category, string> = {
   "실시간 현황": "catLive",
   "후기": "catReview",
@@ -28,6 +30,7 @@ interface PostMeta {
   nickname: string;
   title: string;
   category: Category;
+  region: string | null;
   view_count: number;
   bar_id: string | null;
   bar_name: string | null;
@@ -45,17 +48,30 @@ function formatDate(iso: string): string {
   return `${d.getFullYear()}.${String(d.getMonth() + 1).padStart(2, "0")}.${String(d.getDate()).padStart(2, "0")}`;
 }
 
+function buildHref(params: { category?: string | null; region?: string | null; search?: string }) {
+  const q = new URLSearchParams();
+  if (params.category) q.set("category", params.category);
+  if (params.region) q.set("region", params.region);
+  if (params.search) q.set("search", params.search);
+  const str = q.toString();
+  return `/community${str ? `?${str}` : ""}`;
+}
+
 export default async function CommunityPage({
   searchParams,
 }: {
-  searchParams?: { page?: string; category?: string };
+  searchParams?: { page?: string; category?: string; region?: string; search?: string };
 }) {
   const page = Math.max(1, parseInt(searchParams?.page ?? "1"));
   const rawCategory = searchParams?.category ?? null;
+  const rawRegion = searchParams?.region ?? null;
+  const search = searchParams?.search?.trim() ?? "";
+
   const category: Category | null =
     rawCategory === "자유" || rawCategory === "후기" || rawCategory === "실시간 현황"
       ? rawCategory
       : null;
+  const region = (COMMUNITY_REGIONS as readonly string[]).includes(rawRegion ?? "") ? rawRegion : null;
 
   const client = createClient(
     process.env.NEXT_PUBLIC_SUPABASE_URL!,
@@ -69,6 +85,8 @@ export default async function CommunityPage({
     .range((page - 1) * LIMIT, page * LIMIT - 1);
 
   if (category) query = query.eq("category", category);
+  if (region) query = query.eq("region", region);
+  if (search) query = query.ilike("title", `%${search}%`);
 
   const { data, count, error } = await query;
 
@@ -92,23 +110,74 @@ export default async function CommunityPage({
           <Link href="/community/write" className={styles.writeBtn}>글쓰기</Link>
         </div>
 
-        {/* 카테고리 탭 */}
-        <div className={styles.tabs}>
-          {CATEGORIES.map(({ label, value }) => {
-            const href = value
-              ? `/community?category=${encodeURIComponent(value)}`
-              : "/community";
-            const isActive = category === value;
-            return (
-              <Link
-                key={label}
-                href={href}
-                className={`${styles.tab} ${isActive ? styles.tabActive : ""}`}
-              >
-                {label}
+        {/* 검색 */}
+        <form action="/community" method="GET" className={styles.searchForm}>
+          {category && <input type="hidden" name="category" value={category} />}
+          {region && <input type="hidden" name="region" value={region} />}
+          <div className={styles.searchBar}>
+            <svg className={styles.searchIcon} width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5">
+              <circle cx="11" cy="11" r="8" />
+              <line x1="21" y1="21" x2="16.65" y2="16.65" />
+            </svg>
+            <input
+              className={styles.searchInput}
+              type="text"
+              name="search"
+              defaultValue={search}
+              placeholder="제목 검색..."
+              autoComplete="off"
+            />
+            {search && (
+              <Link href={buildHref({ category, region })} className={styles.searchClear} aria-label="검색 초기화">
+                <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5">
+                  <line x1="18" y1="6" x2="6" y2="18" />
+                  <line x1="6" y1="6" x2="18" y2="18" />
+                </svg>
               </Link>
-            );
-          })}
+            )}
+            <button type="submit" className={styles.searchBtn}>검색</button>
+          </div>
+        </form>
+
+        {/* 카테고리 탭 */}
+        <div className={styles.filterSection}>
+          <span className={styles.filterSectionLabel}>카테고리</span>
+          <div className={styles.tabs}>
+            {CATEGORIES.map(({ label, value }) => {
+              const isActive = category === value;
+              return (
+                <Link
+                  key={label}
+                  href={buildHref({ category: value, region, search })}
+                  className={`${styles.tab} ${isActive ? styles.tabActive : ""}`}
+                >
+                  {label}
+                </Link>
+              );
+            })}
+          </div>
+        </div>
+
+        {/* 지역 탭 */}
+        <div className={styles.filterSection}>
+          <span className={styles.filterSectionLabel}>지역</span>
+          <div className={styles.tabs}>
+            <Link
+              href={buildHref({ category, region: null, search })}
+              className={`${styles.tab} ${!region ? styles.tabActive : ""}`}
+            >
+              전체
+            </Link>
+            {COMMUNITY_REGIONS.map((r) => (
+              <Link
+                key={r}
+                href={buildHref({ category, region: r, search })}
+                className={`${styles.tab} ${region === r ? styles.tabActive : ""}`}
+              >
+                {r}
+              </Link>
+            ))}
+          </div>
         </div>
 
         {error ? (
@@ -130,6 +199,9 @@ export default async function CommunityPage({
                     <span className={`${styles.catBadge} ${styles[CAT_CLASS[post.category] ?? "catFree"]}`}>
                       {post.category}
                     </span>
+                    {post.region && (
+                      <span className={styles.regionBadge}>{post.region}</span>
+                    )}
                     {post.bar_name && (
                       <span className={styles.barBadge}>{post.bar_name}</span>
                     )}
@@ -157,7 +229,7 @@ export default async function CommunityPage({
           <div className={styles.pagination}>
             {page > 1 && (
               <Link
-                href={`/community?page=${page - 1}${category ? `&category=${encodeURIComponent(category)}` : ""}`}
+                href={`${buildHref({ category, region, search })}&page=${page - 1}`}
                 className={styles.pageBtn}
               >
                 이전
@@ -166,7 +238,7 @@ export default async function CommunityPage({
             {Array.from({ length: totalPages }, (_, i) => i + 1).map((p) => (
               <Link
                 key={p}
-                href={`/community?page=${p}${category ? `&category=${encodeURIComponent(category)}` : ""}`}
+                href={`${buildHref({ category, region, search })}&page=${p}`}
                 className={`${styles.pageBtn} ${p === page ? styles.pageBtnActive : ""}`}
               >
                 {p}
@@ -174,7 +246,7 @@ export default async function CommunityPage({
             ))}
             {page < totalPages && (
               <Link
-                href={`/community?page=${page + 1}${category ? `&category=${encodeURIComponent(category)}` : ""}`}
+                href={`${buildHref({ category, region, search })}&page=${page + 1}`}
                 className={styles.pageBtn}
               >
                 다음

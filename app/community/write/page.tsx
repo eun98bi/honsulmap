@@ -4,6 +4,7 @@ import { useState, useEffect, useRef } from "react";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
 import { supabase } from "@/lib/supabase";
+import { COMMUNITY_REGIONS } from "@/lib/data";
 import styles from "./page.module.css";
 
 interface BarOption {
@@ -18,6 +19,7 @@ export default function WritePage() {
   const [nickname, setNickname] = useState("");
   const [password, setPassword] = useState("");
   const [category, setCategory] = useState<"자유" | "후기" | "실시간 현황">("자유");
+  const [region, setRegion] = useState<string | null>(null);
   const [title, setTitle] = useState("");
   const [content, setContent] = useState("");
 
@@ -81,6 +83,7 @@ export default function WritePage() {
           content,
           barId: selectedBar?.id ?? null,
           category,
+          region: region ?? null,
         }),
       });
       const json = await res.json();
@@ -214,6 +217,25 @@ export default function WritePage() {
                   onClick={() => setCategory(cat)}
                 >
                   {cat}
+                </button>
+              ))}
+            </div>
+          </div>
+
+          {/* 지역 */}
+          <div className={styles.field}>
+            <label className={styles.label}>
+              지역 <span className={styles.optional}>(선택)</span>
+            </label>
+            <div className={styles.categoryGroup} style={{ flexWrap: "wrap", gap: "6px" }}>
+              {COMMUNITY_REGIONS.map((r) => (
+                <button
+                  key={r}
+                  type="button"
+                  className={`${styles.categoryBtn} ${region === r ? styles.categoryBtnActive : ""}`}
+                  onClick={() => setRegion(region === r ? null : r)}
+                >
+                  {r}
                 </button>
               ))}
             </div>

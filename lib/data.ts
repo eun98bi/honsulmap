@@ -1,5 +1,8 @@
 export type HonsulMode = "quiet" | "social" | "mixed";
 
+export const COMMUNITY_REGIONS = ["서울", "경기", "부산", "대구", "인천", "광주", "대전", "제주", "기타"] as const;
+export type CommunityRegion = typeof COMMUNITY_REGIONS[number];
+
 export type DayKey = "mon" | "tue" | "wed" | "thu" | "fri" | "sat" | "sun";
 
 export interface DayHours {

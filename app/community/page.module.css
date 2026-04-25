@@ -35,7 +35,7 @@
 
 .navLink {
   font-size: 13px;
-  color: #C0B9B0;
+  color: var(--text-muted);
   text-decoration: none;
   transition: color 0.15s;
 }
@@ -58,7 +58,7 @@
   display: flex;
   align-items: center;
   justify-content: space-between;
-  margin-bottom: 24px;
+  margin-bottom: 20px;
 }
 
 .title {
@@ -84,23 +84,106 @@
 }
 .writeBtn:hover { opacity: 0.85; }
 
-/* ─── Category Tabs ──────────────────────────────── */
+/* ─── Search ──────────────────────────────────────── */
+.searchForm {
+  margin-bottom: 16px;
+}
+
+.searchBar {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 0 12px;
+  height: 38px;
+  transition: border-color 0.15s;
+}
+.searchBar:focus-within {
+  border-color: var(--accent-amber-dim);
+}
+
+.searchIcon {
+  color: var(--text-muted);
+  flex-shrink: 0;
+}
+
+.searchInput {
+  flex: 1;
+  background: transparent;
+  border: none;
+  outline: none;
+  font-family: 'Gmarket Sans', sans-serif;
+  font-size: 13px;
+  color: var(--text);
+  min-width: 0;
+}
+.searchInput::placeholder { color: var(--text-muted); }
+
+.searchClear {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--text-muted);
+  flex-shrink: 0;
+  transition: color 0.15s;
+  text-decoration: none;
+}
+.searchClear:hover { color: var(--text); }
+
+.searchBtn {
+  flex-shrink: 0;
+  background: transparent;
+  border: none;
+  border-left: 1px solid var(--border);
+  padding: 0 0 0 12px;
+  font-family: 'Gmarket Sans', sans-serif;
+  font-size: 12px;
+  color: var(--text-muted);
+  cursor: pointer;
+  transition: color 0.15s;
+  height: 20px;
+}
+.searchBtn:hover { color: var(--accent-amber); }
+
+/* ─── Filter Sections ────────────────────────────── */
+.filterSection {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  margin-bottom: 10px;
+}
+
+.filterSectionLabel {
+  font-family: 'Gmarket Sans', sans-serif;
+  font-size: 10px;
+  font-weight: 500;
+  color: var(--text-dim);
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  padding-top: 8px;
+  flex-shrink: 0;
+  width: 40px;
+}
+
+/* ─── Category / Region Tabs ──────────────────────── */
 .tabs {
   display: flex;
   gap: 6px;
-  margin-bottom: 16px;
   flex-wrap: wrap;
 }
 
 .tab {
-  padding: 6px 14px;
+  padding: 5px 12px;
   border: 1px solid var(--border);
   border-radius: 20px;
-  font-size: 13px;
+  font-size: 12px;
   color: var(--text-muted);
   text-decoration: none;
   font-family: 'Gmarket Sans', sans-serif;
   transition: all 0.15s;
+  white-space: nowrap;
 }
 .tab:hover { border-color: var(--text-muted); color: var(--text); }
 
@@ -133,13 +216,27 @@
 
 .catFree {
   background: rgba(176, 169, 158, 0.1);
-  color: #b0a99e;
+  color: var(--text-muted);
+}
+
+/* ─── Region Badge ───────────────────────────────── */
+.regionBadge {
+  flex-shrink: 0;
+  font-size: 11px;
+  padding: 2px 7px;
+  border-radius: 3px;
+  font-family: 'Gmarket Sans', sans-serif;
+  font-weight: 500;
+  background: rgba(212, 168, 83, 0.08);
+  color: var(--accent-amber);
+  border: 1px solid var(--accent-amber-dim);
 }
 
 /* ─── Post List ───────────────────────────────────── */
 .list {
   list-style: none;
   border-top: 1px solid var(--border);
+  margin-top: 8px;
 }
 
 .item {
@@ -194,16 +291,16 @@
   align-items: center;
   gap: 6px;
   font-size: 12px;
-  color: #B0A99E;
+  color: var(--text-muted);
 }
 
-.dot { color: var(--text-muted); }
+.dot { color: var(--text-dim); }
 
 /* ─── Empty ───────────────────────────────────────── */
 .empty {
   padding: 80px 0;
   text-align: center;
-  color: #C0B9B0;
+  color: var(--text-muted);
   font-size: 15px;
   line-height: 2;
 }
@@ -248,4 +345,6 @@
   .header { padding: 0 16px; }
   .main { padding: 24px 12px 60px; }
   .itemTitle { font-size: 14px; }
+  .filterSection { flex-direction: column; gap: 6px; }
+  .filterSectionLabel { padding-top: 0; width: auto; }
 }

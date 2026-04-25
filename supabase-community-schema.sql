@@ -109,3 +109,34 @@ ALTER TABLE posts
 
 CREATE INDEX IF NOT EXISTS idx_posts_category
   ON posts(category) WHERE is_deleted = FALSE;
+
+-- ── 9. 마이그레이션: region 컬럼 추가 ───────────────────────────
+ALTER TABLE posts
+  ADD COLUMN IF NOT EXISTS region TEXT DEFAULT NULL;
+
+CREATE INDEX IF NOT EXISTS idx_posts_region
+  ON posts(region) WHERE is_deleted = FALSE AND region IS NOT NULL;
+
+-- 뷰 재생성 (region 컬럼 포함)
+CREATE OR REPLACE VIEW posts_with_meta AS
+SELECT
+  p.id,
+  p.created_at,
+  p.nickname,
+  p.title,
+  p.category,
+  p.region,
+  p.view_count,
+  p.bar_id,
+  b.name AS bar_name,
+  (
+    SELECT COUNT(*)::INTEGER
+    FROM comments c
+    WHERE c.post_id = p.id AND c.is_deleted = FALSE
+  ) AS comment_count
+FROM posts p
+LEFT JOIN bars b ON b.id = p.bar_id
+WHERE p.is_deleted = FALSE;
+
+-- 뷰 권한 재부여
+GRANT SELECT ON posts_with_meta TO anon, authenticated, service_role;

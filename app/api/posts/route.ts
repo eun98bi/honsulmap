@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
 import { createClient } from "@supabase/supabase-js";
 import { createHash } from "crypto";
+import { COMMUNITY_REGIONS } from "@/lib/data";
 
 const db = () =>
   createClient(
@@ -37,7 +38,7 @@ export async function GET(req: NextRequest) {
 
 export async function POST(req: NextRequest) {
   const body = await req.json().catch(() => null);
-  const { nickname, password, title, content, barId, category } = body ?? {};
+  const { nickname, password, title, content, barId, category, region } = body ?? {};
 
   if (!nickname?.trim() || !password || !title?.trim() || !content?.trim()) {
     return NextResponse.json({ error: "invalid" }, { status: 400 });
@@ -48,6 +49,7 @@ export async function POST(req: NextRequest) {
 
   const VALID_CATEGORIES = ["자유", "후기", "실시간 현황"] as const;
   const resolvedCategory = VALID_CATEGORIES.includes(category) ? category : "자유";
+  const resolvedRegion = (COMMUNITY_REGIONS as readonly string[]).includes(region) ? region : null;
 
   const { data, error } = await db()
     .from("posts")
@@ -58,6 +60,7 @@ export async function POST(req: NextRequest) {
       content: content.trim(),
       bar_id: barId ?? null,
       category: resolvedCategory,
+      region: resolvedRegion,
     })
     .select("id")
     .single();

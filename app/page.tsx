@@ -27,6 +27,9 @@ export default function HomePage() {
   const [detailBar, setDetailBar] = useState<BarRow | null>(null);
   const [mobileTagsOpen, setMobileTagsOpen] = useState(false);
   const [topTagsByBar, setTopTagsByBar] = useState<Record<string, string[]>>({});
+  const [regionOpen, setRegionOpen] = useState(false);
+  const [districtOpen, setDistrictOpen] = useState(false);
+  const [searchQuery, setSearchQuery] = useState("");
 
   useEffect(() => {
     fetchBars().then(setAllBars).finally(() => setLoading(false));
@@ -57,9 +60,13 @@ export default function HomePage() {
       if (modeFilter !== "all" && bar.mode !== modeFilter) return false;
       if (regionFilter !== "전체" && getBarRegion(bar) !== regionFilter) return false;
       if (districtFilter !== "전체" && !bar.districts?.includes(districtFilter)) return false;
+      if (searchQuery.trim()) {
+        const q = searchQuery.trim().toLowerCase();
+        if (!bar.name.toLowerCase().includes(q) && !bar.address.toLowerCase().includes(q)) return false;
+      }
       return true;
     });
-  }, [allBars, modeFilter, regionFilter, districtFilter]);
+  }, [allBars, modeFilter, regionFilter, districtFilter, searchQuery]);
 
   const resetSelection = () => {
     setSelectedBar(null);
@@ -92,7 +99,27 @@ export default function HomePage() {
           <span className={styles.logoMark}>🍶</span>
           <span className={styles.logoText}>혼술스팟</span>
         </Link>
-        <p className={styles.tagline}>혼술러가 검증한 바 지도</p>
+        <div className={styles.searchBar}>
+          <svg className={styles.searchIcon} width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5">
+            <circle cx="11" cy="11" r="8" />
+            <line x1="21" y1="21" x2="16.65" y2="16.65" />
+          </svg>
+          <input
+            className={styles.searchInput}
+            type="text"
+            placeholder="바 이름 검색..."
+            value={searchQuery}
+            onChange={(e) => setSearchQuery(e.target.value)}
+          />
+          {searchQuery && (
+            <button className={styles.searchClear} onClick={() => setSearchQuery("")} type="button" aria-label="검색어 지우기">
+              <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5">
+                <line x1="18" y1="6" x2="6" y2="18" />
+                <line x1="6" y1="6" x2="18" y2="18" />
+              </svg>
+            </button>
+          )}
+        </div>
         <div className={styles.headerActions}>
           <Link href="/community" className={styles.communityBtn}>커뮤니티</Link>
           <Link href="/contact?type=info" className={styles.headerBtn}>정보 수정 문의</Link>
@@ -112,42 +139,74 @@ export default function HomePage() {
           </button>
 
           <div className={`${styles.filters} ${mobileTagsOpen ? styles.filtersOpen : ""}`}>
-            <div className={styles.filterLabel}>지역</div>
-            <div className={styles.filterGroup}>
-              {["전체", ...regions].map((region) => (
-                <button
-                  key={region}
-                  className={`${styles.pill} ${regionFilter === region ? styles.pillActive : ""}`}
-                  onClick={() => {
-                    setRegionFilter(region);
-                    setDistrictFilter("전체");
-                    resetSelection();
-                  }}
-                  type="button"
-                >
-                  {region}
-                </button>
-              ))}
-            </div>
+            {/* 지역 토글 */}
+            <button
+              className={styles.filterToggleRow}
+              onClick={() => setRegionOpen((o) => !o)}
+              type="button"
+            >
+              <span className={styles.filterLabel}>지역</span>
+              <span className={styles.filterToggleRight}>
+                <span className={`${styles.filterSelectedBadge} ${regionFilter !== "전체" ? styles.filterSelectedActive : ""}`}>
+                  {regionFilter}
+                </span>
+                <span className={`${styles.filterToggleArrow} ${regionOpen ? styles.filterToggleArrowOpen : ""}`}>▾</span>
+              </span>
+            </button>
+            {regionOpen && (
+              <div className={styles.filterGroup}>
+                {["전체", ...regions].map((region) => (
+                  <button
+                    key={region}
+                    className={`${styles.pill} ${regionFilter === region ? styles.pillActive : ""}`}
+                    onClick={() => {
+                      setRegionFilter(region);
+                      setDistrictFilter("전체");
+                      resetSelection();
+                      setRegionOpen(false);
+                    }}
+                    type="button"
+                  >
+                    {region}
+                  </button>
+                ))}
+              </div>
+            )}
 
             <div className={styles.filterDivider} />
 
-            <div className={styles.filterLabel}>동네</div>
-            <div className={styles.filterGroup}>
-              {["전체", ...districts].map((district) => (
-                <button
-                  key={district}
-                  className={`${styles.pill} ${districtFilter === district ? styles.pillActive : ""}`}
-                  onClick={() => {
-                    setDistrictFilter(district);
-                    resetSelection();
-                  }}
-                  type="button"
-                >
-                  {district}
-                </button>
-              ))}
-            </div>
+            {/* 동네 토글 */}
+            <button
+              className={styles.filterToggleRow}
+              onClick={() => setDistrictOpen((o) => !o)}
+              type="button"
+            >
+              <span className={styles.filterLabel}>동네</span>
+              <span className={styles.filterToggleRight}>
+                <span className={`${styles.filterSelectedBadge} ${districtFilter !== "전체" ? styles.filterSelectedActive : ""}`}>
+                  {districtFilter}
+                </span>
+                <span className={`${styles.filterToggleArrow} ${districtOpen ? styles.filterToggleArrowOpen : ""}`}>▾</span>
+              </span>
+            </button>
+            {districtOpen && (
+              <div className={styles.filterGroup}>
+                {["전체", ...districts].map((district) => (
+                  <button
+                    key={district}
+                    className={`${styles.pill} ${districtFilter === district ? styles.pillActive : ""}`}
+                    onClick={() => {
+                      setDistrictFilter(district);
+                      resetSelection();
+                      setDistrictOpen(false);
+                    }}
+                    type="button"
+                  >
+                    {district}
+                  </button>
+                ))}
+              </div>
+            )}
 
             <div className={styles.filterDivider} />
 
