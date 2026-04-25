@@ -38,7 +38,7 @@ export default async function CommunityPage({
     process.env.SUPABASE_SERVICE_ROLE_KEY!
   );
 
-  const { data, count } = await client
+  const { data, count, error } = await client
     .from("posts_with_meta")
     .select("*", { count: "exact" })
     .order("created_at", { ascending: false })
@@ -64,7 +64,12 @@ export default async function CommunityPage({
           <Link href="/community/write" className={styles.writeBtn}>글쓰기</Link>
         </div>
 
-        {posts.length === 0 ? (
+        {error ? (
+          <div className={styles.empty}>
+            <p>글 목록을 불러오지 못했어요.</p>
+            <p style={{ fontSize: "12px", color: "#e07070", marginTop: "8px" }}>{error.message}</p>
+          </div>
+        ) : posts.length === 0 ? (
           <div className={styles.empty}>
             <p>아직 작성된 글이 없어요.</p>
             <p>첫 글을 남겨보세요.</p>

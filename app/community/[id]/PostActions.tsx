@@ -81,7 +81,7 @@ export default function PostActions({
 
   if (!mode) {
     return (
-      <div className={styles.postActionsBtns}>
+      <>
         <button className={styles.actionBtn} onClick={() => openModal("edit")}>
           수정
         </button>
@@ -91,7 +91,7 @@ export default function PostActions({
         >
           삭제
         </button>
-      </div>
+      </>
     );
   }
 

@@ -85,12 +85,15 @@ export default async function PostPage({
           <span>조회 {post.view_count}</span>
         </div>
 
-        {/* 수정 / 삭제 버튼 (클라이언트) */}
-        <PostActions
-          postId={post.id}
-          initialTitle={post.title}
-          initialContent={post.content}
-        />
+        {/* 목록 / 수정 / 삭제 버튼 */}
+        <div className={styles.postActionsRow}>
+          <Link href="/community" className={styles.backBtn}>← 목록으로</Link>
+          <PostActions
+            postId={post.id}
+            initialTitle={post.title}
+            initialContent={post.content}
+          />
+        </div>
 
         {/* 구분선 */}
         <hr className={styles.divider} />
