@@ -118,14 +118,16 @@ CREATE INDEX IF NOT EXISTS idx_posts_region
   ON posts(region) WHERE is_deleted = FALSE AND region IS NOT NULL;
 
 -- 뷰 재생성 (region 컬럼 포함)
-CREATE OR REPLACE VIEW posts_with_meta AS
+-- CREATE OR REPLACE 는 컬럼 순서 변경 불가 → DROP 후 재생성
+DROP VIEW IF EXISTS posts_with_meta;
+
+CREATE VIEW posts_with_meta AS
 SELECT
   p.id,
   p.created_at,
   p.nickname,
   p.title,
   p.category,
-  p.region,
   p.view_count,
   p.bar_id,
   b.name AS bar_name,
@@ -133,7 +135,8 @@ SELECT
     SELECT COUNT(*)::INTEGER
     FROM comments c
     WHERE c.post_id = p.id AND c.is_deleted = FALSE
-  ) AS comment_count
+  ) AS comment_count,
+  p.region
 FROM posts p
 LEFT JOIN bars b ON b.id = p.bar_id
 WHERE p.is_deleted = FALSE;
