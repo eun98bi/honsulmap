@@ -355,6 +355,12 @@
     overflow: visible;
   }
 
+  .mapAreaDetail .mapKakao {
+    overflow: visible;
+    height: auto;
+    flex: none;
+  }
+
   /* 목록 */
   .listWrapper {
     grid-column: 1;
