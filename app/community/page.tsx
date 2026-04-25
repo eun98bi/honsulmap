@@ -3,6 +3,7 @@ import { createClient } from "@supabase/supabase-js";
 import styles from "./page.module.css";
 
 export const dynamic = "force-dynamic";
+export const revalidate = 0;
 
 const LIMIT = 20;
 
@@ -37,7 +38,7 @@ export default async function CommunityPage({
 
   const client = createClient(
     process.env.NEXT_PUBLIC_SUPABASE_URL!,
-    process.env.SUPABASE_SERVICE_ROLE_KEY!
+    process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!
   );
 
   const { data, count, error } = await client

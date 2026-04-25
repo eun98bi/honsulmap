@@ -5,6 +5,9 @@ import PostActions from "./PostActions";
 import CommentsSection from "./CommentsSection";
 import styles from "./page.module.css";
 
+export const dynamic = "force-dynamic";
+export const revalidate = 0;
+
 interface Bar {
   id: string;
   name: string;
@@ -34,7 +37,7 @@ export default async function PostPage({
 }) {
   const client = createClient(
     process.env.NEXT_PUBLIC_SUPABASE_URL!,
-    process.env.SUPABASE_SERVICE_ROLE_KEY!
+    process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!
   );
 
   await client.rpc("increment_post_view", { post_id: params.id });
