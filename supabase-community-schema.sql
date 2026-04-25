@@ -13,7 +13,8 @@ CREATE TABLE IF NOT EXISTS posts (
   content       TEXT NOT NULL CHECK (char_length(content) BETWEEN 1 AND 2000),
   bar_id        UUID REFERENCES bars(id) ON DELETE SET NULL,
   view_count    INTEGER DEFAULT 0 NOT NULL,
-  is_deleted    BOOLEAN DEFAULT FALSE NOT NULL
+  is_deleted    BOOLEAN DEFAULT FALSE NOT NULL,
+  category      TEXT NOT NULL DEFAULT '자유' CHECK (category IN ('자유', '후기', '실시간 현황'))
 );
 
 -- ── 2. comments 테이블 ───────────────────────────────────────────
@@ -52,6 +53,7 @@ SELECT
   p.created_at,
   p.nickname,
   p.title,
+  p.category,
   p.view_count,
   p.bar_id,
   b.name AS bar_name,
@@ -98,3 +100,12 @@ CREATE POLICY "comments_service_all"
 
 -- ── 7. 뷰 권한 부여 ──────────────────────────────────────────────
 GRANT SELECT ON posts_with_meta TO anon, authenticated, service_role;
+
+-- ── 8. 마이그레이션: category 컬럼 추가 (기존 테이블에 적용) ─────
+-- 이미 테이블이 존재하는 경우 아래 ALTER TABLE을 실행하세요.
+ALTER TABLE posts
+  ADD COLUMN IF NOT EXISTS category TEXT NOT NULL DEFAULT '자유'
+  CHECK (category IN ('자유', '후기', '실시간 현황'));
+
+CREATE INDEX IF NOT EXISTS idx_posts_category
+  ON posts(category) WHERE is_deleted = FALSE;

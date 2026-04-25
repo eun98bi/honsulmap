@@ -7,11 +7,27 @@ export const revalidate = 0;
 
 const LIMIT = 20;
 
+type Category = "자유" | "후기" | "실시간 현황";
+
+const CATEGORIES: { label: string; value: Category | null }[] = [
+  { label: "전체", value: null },
+  { label: "실시간 현황", value: "실시간 현황" },
+  { label: "후기", value: "후기" },
+  { label: "자유", value: "자유" },
+];
+
+const CAT_CLASS: Record<Category, string> = {
+  "실시간 현황": "catLive",
+  "후기": "catReview",
+  "자유": "catFree",
+};
+
 interface PostMeta {
   id: string;
   created_at: string;
   nickname: string;
   title: string;
+  category: Category;
   view_count: number;
   bar_id: string | null;
   bar_name: string | null;
@@ -32,20 +48,29 @@ function formatDate(iso: string): string {
 export default async function CommunityPage({
   searchParams,
 }: {
-  searchParams?: { page?: string };
+  searchParams?: { page?: string; category?: string };
 }) {
   const page = Math.max(1, parseInt(searchParams?.page ?? "1"));
+  const rawCategory = searchParams?.category ?? null;
+  const category: Category | null =
+    rawCategory === "자유" || rawCategory === "후기" || rawCategory === "실시간 현황"
+      ? rawCategory
+      : null;
 
   const client = createClient(
     process.env.NEXT_PUBLIC_SUPABASE_URL!,
     process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!
   );
 
-  const { data, count, error } = await client
+  let query = client
     .from("posts_with_meta")
     .select("*", { count: "exact" })
     .order("created_at", { ascending: false })
     .range((page - 1) * LIMIT, page * LIMIT - 1);
+
+  if (category) query = query.eq("category", category);
+
+  const { data, count, error } = await query;
 
   const posts: PostMeta[] = data ?? [];
   const total = count ?? 0;
@@ -67,6 +92,25 @@ export default async function CommunityPage({
           <Link href="/community/write" className={styles.writeBtn}>글쓰기</Link>
         </div>
 
+        {/* 카테고리 탭 */}
+        <div className={styles.tabs}>
+          {CATEGORIES.map(({ label, value }) => {
+            const href = value
+              ? `/community?category=${encodeURIComponent(value)}`
+              : "/community";
+            const isActive = category === value;
+            return (
+              <Link
+                key={label}
+                href={href}
+                className={`${styles.tab} ${isActive ? styles.tabActive : ""}`}
+              >
+                {label}
+              </Link>
+            );
+          })}
+        </div>
+
         {error ? (
           <div className={styles.empty}>
             <p>글 목록을 불러오지 못했어요.</p>
@@ -83,6 +127,9 @@ export default async function CommunityPage({
               <li key={post.id} className={styles.item}>
                 <Link href={`/community/${post.id}`} className={styles.itemLink}>
                   <div className={styles.itemMain}>
+                    <span className={`${styles.catBadge} ${styles[CAT_CLASS[post.category] ?? "catFree"]}`}>
+                      {post.category}
+                    </span>
                     {post.bar_name && (
                       <span className={styles.barBadge}>{post.bar_name}</span>
                     )}
@@ -109,21 +156,27 @@ export default async function CommunityPage({
         {totalPages > 1 && (
           <div className={styles.pagination}>
             {page > 1 && (
-              <Link href={`/community?page=${page - 1}`} className={styles.pageBtn}>
+              <Link
+                href={`/community?page=${page - 1}${category ? `&category=${encodeURIComponent(category)}` : ""}`}
+                className={styles.pageBtn}
+              >
                 이전
               </Link>
             )}
             {Array.from({ length: totalPages }, (_, i) => i + 1).map((p) => (
               <Link
                 key={p}
-                href={`/community?page=${p}`}
+                href={`/community?page=${p}${category ? `&category=${encodeURIComponent(category)}` : ""}`}
                 className={`${styles.pageBtn} ${p === page ? styles.pageBtnActive : ""}`}
               >
                 {p}
               </Link>
             ))}
             {page < totalPages && (
-              <Link href={`/community?page=${page + 1}`} className={styles.pageBtn}>
+              <Link
+                href={`/community?page=${page + 1}${category ? `&category=${encodeURIComponent(category)}` : ""}`}
+                className={styles.pageBtn}
+              >
                 다음
               </Link>
             )}

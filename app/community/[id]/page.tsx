@@ -20,6 +20,7 @@ interface Post {
   nickname: string;
   title: string;
   content: string;
+  category: string;
   view_count: number;
   bar_id: string | null;
   bars: Bar | null;
@@ -44,7 +45,7 @@ export default async function PostPage({
 
   const { data } = await client
     .from("posts")
-    .select("id, created_at, nickname, title, content, view_count, bar_id, bars(id, name, districts)")
+    .select("id, created_at, nickname, title, content, category, view_count, bar_id, bars(id, name, districts)")
     .eq("id", params.id)
     .eq("is_deleted", false)
     .single();
@@ -63,18 +64,27 @@ export default async function PostPage({
       </header>
 
       <main className={styles.main}>
-        {/* 바 연결 배지 */}
-        {post.bars && (
-          <Link
-            href={`/?bar=${post.bars.id}`}
-            className={styles.barBadge}
-          >
-            {post.bars.name}
-            {post.bars.districts?.[0] && (
-              <span className={styles.barDistrict}> · {post.bars.districts[0]}</span>
-            )}
-          </Link>
-        )}
+        {/* 카테고리 + 바 연결 배지 */}
+        <div className={styles.badgeRow}>
+          <span className={`${styles.catBadge} ${
+            post.category === "실시간 현황" ? styles.catLive
+            : post.category === "후기" ? styles.catReview
+            : styles.catFree
+          }`}>
+            {post.category}
+          </span>
+          {post.bars && (
+            <Link
+              href={`/?bar=${post.bars.id}`}
+              className={styles.barBadge}
+            >
+              {post.bars.name}
+              {post.bars.districts?.[0] && (
+                <span className={styles.barDistrict}> · {post.bars.districts[0]}</span>
+              )}
+            </Link>
+          )}
+        </div>
 
         {/* 제목 */}
         <h1 className={styles.postTitle}>{post.title}</h1>

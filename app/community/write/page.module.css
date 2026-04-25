@@ -197,6 +197,32 @@
 }
 .removeBar:hover { color: var(--text); }
 
+/* ─── Category Selector ──────────────────────────── */
+.categoryGroup {
+  display: flex;
+  gap: 8px;
+}
+
+.categoryBtn {
+  padding: 7px 16px;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  font-size: 13px;
+  color: var(--text-muted);
+  cursor: pointer;
+  font-family: 'Gmarket Sans', sans-serif;
+  transition: all 0.15s;
+}
+.categoryBtn:hover { border-color: var(--text-muted); color: var(--text); }
+
+.categoryBtnActive {
+  background: var(--accent-amber-dim);
+  border-color: var(--accent-amber);
+  color: var(--accent-amber);
+  font-weight: 700;
+}
+
 /* ─── Error ───────────────────────────────────────── */
 .errorMsg {
   font-size: 13px;

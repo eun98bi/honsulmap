@@ -17,6 +17,7 @@ export default function WritePage() {
 
   const [nickname, setNickname] = useState("");
   const [password, setPassword] = useState("");
+  const [category, setCategory] = useState<"자유" | "후기" | "실시간 현황">("자유");
   const [title, setTitle] = useState("");
   const [content, setContent] = useState("");
 
@@ -79,6 +80,7 @@ export default function WritePage() {
           title,
           content,
           barId: selectedBar?.id ?? null,
+          category,
         }),
       });
       const json = await res.json();
@@ -198,6 +200,23 @@ export default function WritePage() {
                 )}
               </div>
             )}
+          </div>
+
+          {/* 카테고리 */}
+          <div className={styles.field}>
+            <label className={styles.label}>카테고리</label>
+            <div className={styles.categoryGroup}>
+              {(["자유", "후기", "실시간 현황"] as const).map((cat) => (
+                <button
+                  key={cat}
+                  type="button"
+                  className={`${styles.categoryBtn} ${category === cat ? styles.categoryBtnActive : ""}`}
+                  onClick={() => setCategory(cat)}
+                >
+                  {cat}
+                </button>
+              ))}
+            </div>
           </div>
 
           {/* 제목 */}
