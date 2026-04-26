@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useMemo, useState, type MouseEvent } from "react";
+import { useEffect, useMemo, useRef, useState, type MouseEvent } from "react";
 import dynamic from "next/dynamic";
 import Link from "next/link";
 import { fetchBars, fetchTopTagsByBar, getBarRegion, type BarRow } from "@/lib/db";
@@ -33,6 +33,7 @@ export default function HomePage() {
   const [districtOpen, setDistrictOpen] = useState(false);
   const [searchQuery, setSearchQuery] = useState("");
   const [currentPage, setCurrentPage] = useState(1);
+  const listRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     fetchBars().then(setAllBars).finally(() => setLoading(false));
@@ -80,6 +81,11 @@ export default function HomePage() {
     const start = (currentPage - 1) * ITEMS_PER_PAGE;
     return filtered.slice(start, start + ITEMS_PER_PAGE);
   }, [filtered, currentPage]);
+
+  const handlePageChange = (page: number) => {
+    setCurrentPage(page);
+    listRef.current?.scrollIntoView({ behavior: "smooth", block: "start" });
+  };
 
   const resetSelection = () => {
     setSelectedBar(null);
@@ -275,7 +281,7 @@ export default function HomePage() {
           </div>
         )}
 
-        <div className={styles.listWrapper} onClick={handleListBlankClick}>
+        <div className={styles.listWrapper} ref={listRef} onClick={handleListBlankClick}>
           <p className={styles.resultCount}>
             {regionFilter !== "전체" && <span className={styles.resultDistrict}>{regionFilter}</span>}
             {regionFilter !== "전체" && districtFilter !== "전체" && <span className={styles.resultDivider}> · </span>}
@@ -311,7 +317,7 @@ export default function HomePage() {
             <div className={styles.pagination}>
               <button
                 className={styles.pageBtn}
-                onClick={() => setCurrentPage((p) => Math.max(1, p - 1))}
+                onClick={() => handlePageChange(Math.max(1, currentPage - 1))}
                 disabled={currentPage === 1}
                 type="button"
               >
@@ -321,7 +327,7 @@ export default function HomePage() {
                 <button
                   key={p}
                   className={`${styles.pageBtn} ${p === currentPage ? styles.pageBtnActive : ""}`}
-                  onClick={() => setCurrentPage(p)}
+                  onClick={() => handlePageChange(p)}
                   type="button"
                 >
                   {p}
@@ -329,7 +335,7 @@ export default function HomePage() {
               ))}
               <button
                 className={styles.pageBtn}
-                onClick={() => setCurrentPage((p) => Math.min(totalPages, p + 1))}
+                onClick={() => handlePageChange(Math.min(totalPages, currentPage + 1))}
                 disabled={currentPage === totalPages}
                 type="button"
               >

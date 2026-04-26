@@ -26,21 +26,21 @@ export const DAY_KEYS: DayKey[] = ["mon", "tue", "wed", "thu", "fri", "sat", "su
 
 export const modeConfig = {
   quiet: {
-    label: "혼자만의 시간",
+    label: "고독",
     emoji: "🔵",
     color: "#6B8CAE",
     bg: "#EEF3F8",
     desc: "말을 많이 하지 않아도 편한 조용한 혼술 바",
   },
   social: {
-    label: "열린 혼술",
+    label: "소통",
     emoji: "🟠",
     color: "#C07B54",
     bg: "#FBF0EA",
     desc: "바텐더나 옆자리와 자연스럽게 대화가 이어지는 혼술 바",
   },
   mixed: {
-    label: "그날의 기분",
+    label: "혼합",
     emoji: "🟢",
     color: "#7B9E7B",
     bg: "#EEF4EE",
