@@ -4,6 +4,7 @@ import type { HonsulMode, MenuType, WeeklyHours } from "./data";
 export interface BarRow {
   id: string;
   name: string;
+  branch?: string;
   address: string;
   region?: string;
   districts: string[];

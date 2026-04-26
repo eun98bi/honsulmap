@@ -20,6 +20,7 @@ const EMPTY_HOURS: WeeklyHours = {
 
 const EMPTY_FORM = {
   name: "",
+  branch: "",
   address: "",
   region: "",
   districts: [] as string[],
@@ -125,6 +126,7 @@ export default function AdminPage() {
     const districts = bar.districts ?? [];
     setForm({
       name: bar.name,
+      branch: bar.branch ?? "",
       address: bar.address,
       region: bar.region ?? "",
       districts,
@@ -264,7 +266,10 @@ export default function AdminPage() {
               <tbody>
                 {bars.map((bar) => (
                   <tr key={bar.id} className={bar.is_published ? "" : styles.rowDraft}>
-                    <td className={styles.tdName}>{bar.name}</td>
+                    <td className={styles.tdName}>
+                      {bar.name}
+                      {bar.branch && <span className={styles.tdBranch}>{bar.branch}</span>}
+                    </td>
                     <td>{bar.region ?? "-"}</td>
                     <td>{bar.districts?.join(", ") || "-"}</td>
                     <td>
@@ -306,6 +311,14 @@ export default function AdminPage() {
                   value={form.name}
                   onChange={(event) => setForm({ ...form, name: event.target.value })}
                   placeholder="예: 바 도요"
+                />
+
+                <label className={styles.label}>지점명</label>
+                <input
+                  className={styles.input}
+                  value={form.branch}
+                  onChange={(event) => setForm({ ...form, branch: event.target.value })}
+                  placeholder="예: 문래점, 홍대점 (없으면 비워두세요)"
                 />
 
                 <label className={styles.label}>주소 *</label>

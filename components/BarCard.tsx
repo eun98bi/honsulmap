@@ -26,7 +26,10 @@ export default function BarCard({ bar, topTags, selected, onClick, onViewDetail 
         <span className={styles.modeLabel}>{cfg.label}</span>
       </div>
 
-      <h3 className={styles.name}>{bar.name}</h3>
+      <div className={styles.nameRow}>
+        <h3 className={styles.name}>{bar.name}</h3>
+        {bar.branch && <span className={styles.branch}>{bar.branch}</span>}
+      </div>
       {locationLabel && <p className={styles.district}>{locationLabel}</p>}
 
       <div className={styles.infoRow}>

@@ -9,6 +9,7 @@ create table bars (
 
   -- 기본 정보
   name                text not null,
+  branch              text,
   address             text not null,
   district            text not null,
   lat                 double precision,

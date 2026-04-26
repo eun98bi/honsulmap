@@ -35,12 +35,25 @@
 .modeLabel { font-weight: 700; }
 .modePct { opacity: 0.7; }
 
+.nameRow {
+  display: flex;
+  align-items: baseline;
+  gap: 6px;
+  margin-bottom: 2px;
+}
+
 .name {
   font-family: 'Gmarket Sans', sans-serif;
   font-size: 16px;
   font-weight: 700;
   color: var(--text);
-  margin-bottom: 2px;
+}
+
+.branch {
+  font-family: 'Gmarket Sans', sans-serif;
+  font-size: 12px;
+  font-weight: 500;
+  color: var(--text-muted);
 }
 
 .district {
