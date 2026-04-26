@@ -17,6 +17,8 @@ const KakaoMap = dynamic(() => import("@/components/KakaoMap"), {
 
 type ModeFilter = HonsulMode | "all";
 
+const ITEMS_PER_PAGE = 10;
+
 export default function HomePage() {
   const [allBars, setAllBars] = useState<BarRow[]>([]);
   const [loading, setLoading] = useState(true);
@@ -30,6 +32,7 @@ export default function HomePage() {
   const [regionOpen, setRegionOpen] = useState(false);
   const [districtOpen, setDistrictOpen] = useState(false);
   const [searchQuery, setSearchQuery] = useState("");
+  const [currentPage, setCurrentPage] = useState(1);
 
   useEffect(() => {
     fetchBars().then(setAllBars).finally(() => setLoading(false));
@@ -68,6 +71,16 @@ export default function HomePage() {
     });
   }, [allBars, modeFilter, regionFilter, districtFilter, searchQuery]);
 
+  useEffect(() => {
+    setCurrentPage(1);
+  }, [modeFilter, regionFilter, districtFilter, searchQuery]);
+
+  const totalPages = Math.max(1, Math.ceil(filtered.length / ITEMS_PER_PAGE));
+  const paginatedBars = useMemo(() => {
+    const start = (currentPage - 1) * ITEMS_PER_PAGE;
+    return filtered.slice(start, start + ITEMS_PER_PAGE);
+  }, [filtered, currentPage]);
+
   const resetSelection = () => {
     setSelectedBar(null);
     setDetailBar(null);
@@ -76,6 +89,10 @@ export default function HomePage() {
   const handleSelectBar = (bar: BarRow) => {
     setSelectedBar(bar);
     setDetailBar(null);
+    const barIndex = filtered.indexOf(bar);
+    if (barIndex !== -1) {
+      setCurrentPage(Math.floor(barIndex / ITEMS_PER_PAGE) + 1);
+    }
     setTimeout(() => {
       document.getElementById(`bar-card-${bar.id}`)?.scrollIntoView({ behavior: "smooth", block: "nearest" });
     }, 100);
@@ -278,7 +295,7 @@ export default function HomePage() {
                 <p className={styles.emptySub}>필터를 조금 넓혀보세요.</p>
               </div>
             ) : (
-              filtered.map((bar) => (
+              paginatedBars.map((bar) => (
                 <BarCard
                   key={bar.id}
                   bar={bar}
@@ -290,6 +307,36 @@ export default function HomePage() {
               ))
             )}
           </div>
+          {totalPages > 1 && (
+            <div className={styles.pagination}>
+              <button
+                className={styles.pageBtn}
+                onClick={() => setCurrentPage((p) => Math.max(1, p - 1))}
+                disabled={currentPage === 1}
+                type="button"
+              >
+                이전
+              </button>
+              {Array.from({ length: totalPages }, (_, i) => i + 1).map((p) => (
+                <button
+                  key={p}
+                  className={`${styles.pageBtn} ${p === currentPage ? styles.pageBtnActive : ""}`}
+                  onClick={() => setCurrentPage(p)}
+                  type="button"
+                >
+                  {p}
+                </button>
+              ))}
+              <button
+                className={styles.pageBtn}
+                onClick={() => setCurrentPage((p) => Math.min(totalPages, p + 1))}
+                disabled={currentPage === totalPages}
+                type="button"
+              >
+                다음
+              </button>
+            </div>
+          )}
         </div>
       </div>
     </div>

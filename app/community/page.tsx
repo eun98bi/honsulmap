@@ -6,7 +6,7 @@ import styles from "./page.module.css";
 export const dynamic = "force-dynamic";
 export const revalidate = 0;
 
-const LIMIT = 20;
+const LIMIT = 10;
 
 type Category = "자유" | "후기" | "실시간 현황";
 
