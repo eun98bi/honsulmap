@@ -33,6 +33,20 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
     <html lang="ko">
       <head>
         <script
+          async
+          src="https://www.googletagmanager.com/gtag/js?id=G-P18ZELCWRH"
+        />
+        <script
+          dangerouslySetInnerHTML={{
+            __html: `
+              window.dataLayer = window.dataLayer || [];
+              function gtag(){dataLayer.push(arguments);}
+              gtag('js', new Date());
+              gtag('config', 'G-P18ZELCWRH');
+            `,
+          }}
+        />
+        <script
           type="text/javascript"
           src={`//dapi.kakao.com/v2/maps/sdk.js?appkey=${kakaoKey}&autoload=false`}
           async
