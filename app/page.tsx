@@ -29,8 +29,8 @@ export default function HomePage() {
   const [detailBar, setDetailBar] = useState<BarRow | null>(null);
   const [mobileTagsOpen, setMobileTagsOpen] = useState(false);
   const [topTagsByBar, setTopTagsByBar] = useState<Record<string, string[]>>({});
-  const [regionOpen, setRegionOpen] = useState(false);
-  const [districtOpen, setDistrictOpen] = useState(false);
+  const [regionOpen, setRegionOpen] = useState(true);
+  const [districtOpen, setDistrictOpen] = useState(true);
   const [searchQuery, setSearchQuery] = useState("");
   const [currentPage, setCurrentPage] = useState(1);
   const listRef = useRef<HTMLDivElement>(null);
