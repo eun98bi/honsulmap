@@ -50,6 +50,9 @@ export default function AdminPage() {
   const [saving, setSaving] = useState(false);
   const [tab, setTab] = useState<"list" | "form">("list");
   const [toast, setToast] = useState("");
+  const [sortBy, setSortBy] = useState<"name" | "region" | null>(null);
+  const [sortDir, setSortDir] = useState<"asc" | "desc">("asc");
+  const [adminSearch, setAdminSearch] = useState("");
 
   const showToast = (message: string) => {
     setToast(message);
@@ -155,6 +158,34 @@ export default function AdminPage() {
     loadBars();
   };
 
+  const handleSort = (col: "name" | "region") => {
+    if (sortBy === col) {
+      setSortDir((d) => (d === "asc" ? "desc" : "asc"));
+    } else {
+      setSortBy(col);
+      setSortDir("asc");
+    }
+  };
+
+  const filteredBars = adminSearch.trim()
+    ? bars.filter((bar) => {
+        const q = adminSearch.trim().toLowerCase();
+        return (
+          bar.name.toLowerCase().includes(q) ||
+          (bar.branch ?? "").toLowerCase().includes(q) ||
+          (bar.region ?? "").toLowerCase().includes(q)
+        );
+      })
+    : bars;
+
+  const sortedBars = sortBy
+    ? [...filteredBars].sort((a, b) => {
+        const valA = (sortBy === "name" ? a.name : (a.region ?? "")).toLowerCase();
+        const valB = (sortBy === "name" ? b.name : (b.region ?? "")).toLowerCase();
+        return sortDir === "asc" ? valA.localeCompare(valB, "ko") : valB.localeCompare(valA, "ko");
+      })
+    : filteredBars;
+
   const handleTogglePublish = async (bar: BarRow) => {
     await supabase.from("bars").update({ is_published: !bar.is_published }).eq("id", bar.id);
     showToast(bar.is_published ? "비공개로 변경했어요." : "공개했어요.");
@@ -251,12 +282,28 @@ export default function AdminPage() {
       <main className={styles.main}>
         {tab === "list" && (
           <div className={styles.listWrap}>
-            {bars.length === 0 && <p className={styles.empty}>등록된 바가 없어요.</p>}
+            <div className={styles.listToolbar}>
+              <input
+                className={styles.adminSearch}
+                type="text"
+                placeholder="이름, 지점명, 지역 검색..."
+                value={adminSearch}
+                onChange={(e) => setAdminSearch(e.target.value)}
+              />
+              {adminSearch && (
+                <button className={styles.adminSearchClear} onClick={() => setAdminSearch("")} type="button">✕</button>
+              )}
+              <span className={styles.adminSearchCount}>{sortedBars.length}개</span>
+            </div>
             <table className={styles.table}>
               <thead>
                 <tr>
-                  <th>이름</th>
-                  <th>지역</th>
+                  <th className={styles.thSortable} onClick={() => handleSort("name")}>
+                    이름 {sortBy === "name" ? (sortDir === "asc" ? "▲" : "▼") : "↕"}
+                  </th>
+                  <th className={styles.thSortable} onClick={() => handleSort("region")}>
+                    지역 {sortBy === "region" ? (sortDir === "asc" ? "▲" : "▼") : "↕"}
+                  </th>
                   <th>동네 태그</th>
                   <th>모드</th>
                   <th>공개</th>
@@ -264,7 +311,10 @@ export default function AdminPage() {
                 </tr>
               </thead>
               <tbody>
-                {bars.map((bar) => (
+                {sortedBars.length === 0 && (
+                  <tr><td colSpan={6} className={styles.emptyRow}>{adminSearch ? "검색 결과가 없어요." : "등록된 바가 없어요."}</td></tr>
+                )}
+                {sortedBars.map((bar) => (
                   <tr key={bar.id} className={bar.is_published ? "" : styles.rowDraft}>
                     <td className={styles.tdName}>
                       {bar.name}

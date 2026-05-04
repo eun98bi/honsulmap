@@ -30,7 +30,7 @@ export default function HomePage() {
   const [mobileTagsOpen, setMobileTagsOpen] = useState(false);
   const [topTagsByBar, setTopTagsByBar] = useState<Record<string, string[]>>({});
   const [regionOpen, setRegionOpen] = useState(true);
-  const [districtOpen, setDistrictOpen] = useState(true);
+  const [districtOpen, setDistrictOpen] = useState(false);
   const [searchQuery, setSearchQuery] = useState("");
   const [currentPage, setCurrentPage] = useState(1);
   const listRef = useRef<HTMLDivElement>(null);
@@ -187,6 +187,7 @@ export default function HomePage() {
                       setDistrictFilter("전체");
                       resetSelection();
                       setRegionOpen(false);
+                      setDistrictOpen(region !== "전체");
                     }}
                     type="button"
                   >

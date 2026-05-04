@@ -153,6 +153,54 @@
 
 .rowDraft td { opacity: 0.5; }
 
+.listToolbar {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 16px;
+}
+
+.adminSearch {
+  flex: 1;
+  max-width: 320px;
+  padding: 8px 12px;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  color: var(--text);
+  font-size: 13px;
+  outline: none;
+}
+.adminSearch:focus { border-color: var(--accent); }
+
+.adminSearchClear {
+  background: none;
+  border: none;
+  color: var(--text-dim);
+  cursor: pointer;
+  font-size: 12px;
+  padding: 4px 6px;
+}
+.adminSearchClear:hover { color: var(--text); }
+
+.adminSearchCount {
+  font-size: 12px;
+  color: var(--text-dim);
+  margin-left: auto;
+}
+
+.emptyRow {
+  text-align: center;
+  color: var(--text-dim) !important;
+  padding: 32px !important;
+}
+
+.thSortable {
+  cursor: pointer;
+  user-select: none;
+}
+.thSortable:hover { color: var(--text); }
+
 .tdName { color: var(--text) !important; font-weight: 700; }
 .tdBranch { margin-left: 6px; font-size: 11px; font-weight: 400; color: var(--text-muted); }
 .tdVotes { font-size: 12px; color: var(--text-dim) !important; }
